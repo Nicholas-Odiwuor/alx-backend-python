@@ -1,26 +1,29 @@
 #!/usr/bin/env python3
 """
-A module for asynchronous random delay.
-
-This module provides a coroutine that waits for a random amount of time up to max_delay seconds
-and returns the actual delay.
+Module with an asynchronous coroutine.
 """
 
 import asyncio
 import random
-from typing import Union
 
 
-def wait_random(max_delay: int = 10) -> float:
+async def wait_random(max_delay: int = 10) -> float:
     """
-    Wait for a random delay between 0 and max_delay seconds and return the delay.
+    Asynchronous coroutine that waits for a random delay and returns it.
 
     Args:
-        max_delay (int): Maximum delay in seconds (inclusive). Defaults to 10.
+        max_delay (int): Maximum delay in seconds. Default is 10.
 
     Returns:
-        float: The actual delay waited.
+        float: Random delay between 0 and max_delay seconds.
     """
-    delay: float = random.uniform(0, max_delay)
-    return asyncio.sleep(delay, result=delay)
+    random_delay = random.uniform(0, max_delay)
+    await asyncio.sleep(random_delay)
+    return random_delay
 
+
+if __name__ == "__main__":
+    # Example usage
+    print(asyncio.run(wait_random()))
+    print(asyncio.run(wait_random(5)))
+    print(asyncio.run(wait_random(15)))
