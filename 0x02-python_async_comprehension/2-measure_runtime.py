@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
-''' Async Comprehensions
-'''
-from typing import List
-from importlib import import_module as using
+"""Measure runtime of four parallel async comprehensions"""
+
+import asyncio
+import time
+from typing import Callable
+from 1-async_comprehension import async_comprehension
 
 
-async_generator = using('0-async_generator').async_generator
+async def measure_runtime() -> float:
+    """
+    Executes async_comprehension 4 times in parallel and measures total runtime.
+    Returns:
+        float: total runtime in seconds.
+    """
+    start_time = time.perf_counter()
+    await asyncio.gather(*(async_comprehension() for _ in range(4)))
+    end_time = time.perf_counter()
+    return end_time - start_time
 
-
-async def async_comprehension() -> List[float]:
-    '''Creates a list of 10 numbers from a 10-number generator.
-    '''
-    return [num async for num in async_generator()]
